@@ -4,20 +4,22 @@ package jsp;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import basiX.Dialog;
 import basiX.Fenster;
 import basiX.Stift;
 
@@ -42,35 +44,76 @@ public class Werkzeugkasten {
         fenster = new JFrame();
         fenster.setLocation(1000, 0);
         
-        JButton knopf = new JButton("BLAU");
+//        JButton knopf = new JButton("BLAU");
+//        knopf.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                stift.setzeFarbe(Color.BLUE);
+//                
+//            }
+//        });
+//        fenster.add(knopf, BorderLayout.EAST);
+//        
+        
+        
+        
+        
+        JButton knopf = new JButton("Radieren");
         knopf.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                stift.setzeFarbe(Color.BLUE);
-                
-            }
-        });
-        fenster.add(knopf, BorderLayout.EAST);
-        
-        
-        
-        knopf = new JButton("ROT");
-        knopf.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                stift.setzeFarbe(Color.RED);
+                stift.radiere();
             }
         });
         
         fenster.add(knopf, BorderLayout.WEST);
         
         
-        knopf = new JButton("Farbe");
+        JPanel jpanel = new JPanel(new GridLayout(0, 1));
+        knopf = new JButton("1");
         knopf.addActionListener(new ActionListener() {
 			
 			@Override
+			public void actionPerformed(ActionEvent e) {
+				Dialog.info("", "1");
+			}
+		});
+        jpanel.add(knopf);
+        
+        
+        knopf = new JButton("2");
+        knopf.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Dialog.info("", "2");
+			}
+		});
+        jpanel.add(knopf);
+        
+        fenster.add(jpanel,BorderLayout.EAST);
+        
+        
+        
+        
+        knopf = new JButton("Normaler Stift");
+        knopf.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stift.normal();
+			}
+		});
+        fenster.add(knopf,BorderLayout.SOUTH);
+        	
+        
+        
+        
+        knopf = new JButton("Farbe");
+        knopf.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 				Color c = JColorChooser.showDialog(null, null, null);
 				stift.setzeFarbe(c);
@@ -81,8 +124,7 @@ public class Werkzeugkasten {
         
         JSlider slider = new JSlider();
         slider.addChangeListener(new ChangeListener() {
-            
-            @Override
+        	
             public void stateChanged(ChangeEvent e) {
                 //System.out.println(e.toString());
                 stift.setzeLinienBreite((int)((JSlider)e.getSource()).getValue());
