@@ -5,12 +5,9 @@ package jsp;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
@@ -30,11 +27,14 @@ public class Werkzeugkasten {
     private Fenster malFenster;
     private Stift stift;
     private JButton cb;
+    private Paint p;
 
-    public Werkzeugkasten(Stift pStift, Fenster pMalFenster) {
+    public Werkzeugkasten(Stift pStift, Fenster pMalFenster,Paint pPaint) {
         malFenster = pMalFenster;
         stift = pStift;
         fensterErzeugen();
+        p = pPaint;
+        
         
         
 
@@ -43,28 +43,17 @@ public class Werkzeugkasten {
     private void fensterErzeugen() {
         fenster = new JFrame();
         fenster.setLocation(1000, 0);
-        
-//        JButton knopf = new JButton("BLAU");
-//        knopf.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                stift.setzeFarbe(Color.BLUE);
-//                
-//            }
-//        });
-//        fenster.add(knopf, BorderLayout.EAST);
-//        
+
         
         
         
-        
-        JButton knopf = new JButton("Radieren");
+        JButton knopf = new JButton("Radieren",new ImageIcon(getClass().getResource("icons/eraser.png")));
         knopf.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 stift.radiere();
+                p.setzepenstate(0);
             }
         });
         
@@ -72,23 +61,23 @@ public class Werkzeugkasten {
         
         
         JPanel jpanel = new JPanel(new GridLayout(0, 1));
-        knopf = new JButton("1");
+        knopf = new JButton("",new ImageIcon(getClass().getResource("icons/pipette.png")));
         knopf.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Dialog.info("", "1");
+				p.setzepenstate(1);
 			}
 		});
         jpanel.add(knopf);
         
         
-        knopf = new JButton("2");
+        knopf = new JButton("",new ImageIcon(getClass().getResource("icons/paint_bucket.png")));
         knopf.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Dialog.info("", "2");
+				p.setzepenstate(2);
 			}
 		});
         jpanel.add(knopf);
@@ -98,12 +87,13 @@ public class Werkzeugkasten {
         
         
         
-        knopf = new JButton("Normaler Stift");
+        knopf = new JButton("Normaler Stift",new ImageIcon(getClass().getResource("icons/pen.png")));
         knopf.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				stift.normal();
+				p.setzepenstate(0);
 			}
 		});
         fenster.add(knopf,BorderLayout.SOUTH);
@@ -111,7 +101,7 @@ public class Werkzeugkasten {
         
         
         
-        knopf = new JButton("Farbe");
+        knopf = new JButton("Farbe",new ImageIcon(getClass().getResource("icons/colour.png")));
         knopf.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -122,7 +112,7 @@ public class Werkzeugkasten {
 		});
         fenster.add(knopf,BorderLayout.NORTH);
         
-        JSlider slider = new JSlider();
+        JSlider slider = new JSlider(1,25,10);
         slider.addChangeListener(new ChangeListener() {
         	
             public void stateChanged(ChangeEvent e) {
